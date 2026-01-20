@@ -63,7 +63,8 @@ if prompt and prompt.text:
             answer = bot(history + prompt.text)
         else:
             if(prompt["files"][0].type == "application/pdf"):
-                answer = bot(history + prompt.text)
+                answer = bot(history + prompt.text + "This is the context provided from a pdf document, use it to formulate your answer:" + pdfread(prompt["files"][0]))
+                
             else:
                 
                 answer = bot(history + prompt.text + str(prompt["files"][0].getvalue()))
