@@ -27,7 +27,7 @@ def bot(userinput):
     
     response = client.responses.create(
         input=userinput,
-        model="openai/gpt-oss-20b",
+        model="openai/gpt-oss-120b",
         
     )
     # for chunk in response:
