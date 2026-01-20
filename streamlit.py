@@ -56,7 +56,7 @@ if prompt and prompt.text:
     
     with st.chat_message("Assistant"):
         # prompt.text += f"This is the context, use only this information to formulate your answer. {context} cite the relevant parts from the metadata as well. {response} This is the data from a recent internet search."
-        prompt.text += f"{response} This is the results of a internet search, Create a coherent ouput using these results. This information comes from World War 2 textbooks:{context}. If any relevant piece of information is useful to the users prompt, make sure to use it in creating the output"
+        prompt.text += f"{response} This is the results of a internet search, Create a coherent ouput using these results. This information comes from World War 2 textbooks:{context}. If any relevant piece of information is useful to the users prompt,Cite it, and make sure to use it in creating the output"
         
 
         if(not prompt["files"]):
