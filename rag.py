@@ -9,7 +9,7 @@ import chromadb
 chroma_client = chromadb.Client()
 import uuid
 from chromadb.utils import embedding_functions
-from pdfreader import pdfread
+
 
 
 
@@ -19,26 +19,11 @@ openai_ef = embedding_functions.OpenAIEmbeddingFunction(
                 model_name="text-embedding-3-large"
             )
 client = chromadb.PersistentClient(path='db')
-collection = client.get_or_create_collection(name="vectordb", embedding_function=openai_ef)
-
-# collection = chroma_client.create_collection(name="my_collection")
-# collection = client.get_collection(name="langchain", embedding_function=openai)
-
-# collection.add(
-#     ids=["id1", "id2"],
-#     documents=[
-#         "This is a document about pineapple",
-#         "This is a document about oranges"
-#     ]
-# )
+collection = client.get_or_create_collection(name="HistoryDB", embedding_function=openai_ef)
 
 
-def addtodb(text):
-    collection.add(ids = [f"{uuid.uuid4()}"],documents = [text])
-
-    
-
-
+def addtodb(text, userdata):
+    collection.add(ids = [f"{uuid.uuid4()}"],documents = [text], metadatas = [userdata])    
 
 
 
@@ -94,7 +79,7 @@ def embeds(text):
     )
     return response.data[0].embedding
 
-alicetext = chunking("alice.txt", 500)[0]
+# alicetext = chunking("alice.txt", 500)[0]
 
 # input = input("What do you want")
 # print(embeds(input))
@@ -102,75 +87,27 @@ alicetext = chunking("alice.txt", 500)[0]
 
 
 
-rankings = 3
+# rankings = 3
 
-# for i in range(rankings):
-#     textinput = input("What would you like to say?")
-#     # textembeds = embeds(textinput)
-#     # print(len(textembeds))
-#     addtodb(textinput)
+# book1 = addtodb()
     
+if(__name__=="__main__"):
+    querytest = input("Say something")
 
-querytest = input("Say something")
+    results = collection.query(
+        query_texts= querytest, # Chroma will embed this for you
+        n_results=2 # how many results to return
 
-results = collection.query(
-    query_texts= querytest, # Chroma will embed this for you
-    n_results=rankings # how many results to return
-)
-print(results)
+    )
+    print(results)
 
+def retrieval(prompt, results):
+    querytest = prompt
 
-
-
-
-# inputs = input("What do you want")
-# input2 = input("What do you want2")
-
-# embeds1 = embeds(inputs)
-# embeds2 = embeds(input2)
-
-# print(embedding_similarity_and_distance(embeds1, embeds2))
-
-# "king" "a male monarch who rules a kingdom"
-# "man" "an adult human male"
-# "dog" "a domesticated animal kept as a pet"
-
-
-
-
-
-
-
-
-
-
-
-# response = client.embeddings.create(
-#     input= alicetext,
-#     model="text-embedding-3-small"
-# )
-
-# print(alicetext)
-# print(response.data[0].embedding)
-
-# print(len(chunking("alice.txt", 500)))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    results = collection.query(
+        query_texts= querytest, # Chroma will embed this for you
+        n_results=results ,# how many results to return
+        include=["documents", "metadatas"]
+        
+    )
+    return results

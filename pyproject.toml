@@ -1,0 +1,15 @@
+[project]
+name = "aibot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "chromadb>=1.4.0",
+    "dotenv>=0.9.9",
+    "openai>=2.14.0",
+    "pypdf>=6.5.0",
+    "scikit-learn>=1.7.2",
+    "streamlit>=1.52.2",
+    "tavily-python>=0.7.19",
+]
