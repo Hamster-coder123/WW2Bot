@@ -6,6 +6,7 @@ from tavily import TavilyClient
 import os 
 from dotenv import load_dotenv
 load_dotenv()
+from imagetest import imageinput
 tavily_client = TavilyClient(api_key=os.getenv("tavkey"))
 
 
@@ -27,7 +28,7 @@ st.title("Welcome to HamadanGPT", text_alignment= "center")
 prompt = st.chat_input(
     "What would you like to know?",
     accept_file=True,
-    file_type=["txt", "pdf"],
+    file_type=["txt", "pdf", "jpg", "png", "jpeg"],
 )
 # if prompt and prompt.text:
 # if prompt and prompt["files"]:
@@ -62,12 +63,14 @@ if prompt and prompt.text:
         if(not prompt["files"]):
             answer = bot(history + prompt.text)
         else:
-            if(prompt["files"][0].type == "application/pdf"):
+            if(prompt["files"][-1].type == "application/pdf"):
                 answer = bot(history + prompt.text + "This is the context provided from a pdf document, use it to formulate your answer:" + pdfread(prompt["files"][0]))
                 
+            elif(prompt["files"][-1].type.startswith("image/")):
+                answer = imageinput(history + prompt.text, prompt["files"][-1])
+
             else:
-                
-                answer = bot(history + prompt.text + str(prompt["files"][0].getvalue()))
+                answer = bot(history + prompt.text + str(prompt["files"][-1].getvalue()))
 
         st.write(answer)
         
