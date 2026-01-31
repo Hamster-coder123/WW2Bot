@@ -4,10 +4,10 @@ import os
 load_dotenv()
 from google import genai
 
-# client = OpenAI(
-#     api_key=os.getenv("groqkey"),
-#     base_url="https://api.groq.com/openai/v1",
-# )
+client = OpenAI(
+    api_key=os.getenv("groqkey"),
+    base_url="https://api.groq.com/openai/v1",
+)
 
 # userinput = ("")
 
@@ -27,24 +27,24 @@ from google import genai
 
 def bot(userinput):
     
-    # response = client.responses.create(
-    #     input=userinput,
-    #     model="openai/gpt-oss-120b",
+    response = client.responses.create(
+        input=userinput,
+        model="openai/gpt-oss-120b",
         
-    # )
-    # # for chunk in response:
-    # #     yield chunk.output_text
+    )
+    # for chunk in response:
+    #     yield chunk.output_text
     
-    # return response.output_text
+    return response.output_text
 
     # The client gets the API key from the environment variable `GEMINI_API_KEY`.
-    client = genai.Client(api_key=os.getenv("gemkey"))
+    # client = genai.Client(api_key=os.getenv("gemkey"))
 
-    response = client.models.generate_content(
-        model="gemini-3-pro-preview", contents= userinput
-    )
-    # print(response.text)
-    return response.text
+    # response = client.models.generate_content(
+    #     model="gemini-3-pro-preview", contents= userinput
+    # )
+    # # print(response.text)
+    # return response.text
 
 
 
